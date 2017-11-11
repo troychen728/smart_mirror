@@ -10,6 +10,20 @@ window.containerList = [
 ];
 
 var loadCalendar = function(cb) {
+  $('#calendar-container').fullCalendar({
+    header: {
+      left: 'prev,next today',
+      center: 'title',
+      right: 'listWeek,listDay'
+    },
+    defaultView: 'listWeek',
+    editable: true,
+    googleCalendarApiKey: 'AIzaSyBVr__FHZ_zjXWEmNnPARenKsHXiZPlRxc',
+    events: {
+      googleCalendarId: '2017smartmirror2017@gmail.com'
+    },
+  });
+
   document.getElementById('calendar-container').classList.remove('inactive');
   cb();
 };
@@ -128,20 +142,6 @@ $(document).ready(function() {
       document.getElementById(window.containerList[i]).classList.add('inactive');
     }
   }
-
-  $('#calendar-container').fullCalendar({
-    header: {
-      left: 'prev,next today',
-      center: 'title',
-      right: 'agendaWeek,agendaDay'
-    },
-    defaultView: 'agendaDay',
-    editable: true,
-    googleCalendarApiKey: 'AIzaSyBVr__FHZ_zjXWEmNnPARenKsHXiZPlRxc',
-    events: {
-      googleCalendarId: '2017smartmirror2017@gmail.com'
-    },
-  });
 
   $("#modal").iziModal({
     onOpening: function(modal) {
