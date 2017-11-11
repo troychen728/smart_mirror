@@ -19,24 +19,26 @@ var loadCalendar = function(cb) {
 };
 
 var loadWeather = function(cb){
-  $(document).ready(function() {
-    $.simpleWeather({
-      location: 'Claremont, CA',
-      woeid: '',
-      unit: 'f',
-      success: function(weather) {
-        html = '<h2><i class="icon-'+weather.code+'"></i> '+weather.temp+'&deg;'+weather.units.temp+'</h2>';
-        html += '<ul><li>'+weather.city+', '+weather.region+'</li>';
-        html += '<li class="currently">'+weather.currently+'</li>';
-        html += '<li>'+weather.wind.direction+' '+weather.wind.speed+' '+weather.units.speed+'</li></ul>';
-    
-        $("#weather").html(html);
-      },
-      error: function(error) {
-        $("#weather").html('<p>'+error+'</p>');
-      }
-    });
-  });
+  console.log("haha") ;
+      $.simpleWeather({
+        location: 'Claremont, CA',
+        woeid: '',
+        unit: 'f',
+        success: function(weather) {
+          html = '<h2><i class="icon-'+weather.code+'"></i> '+weather.temp+'&deg;'+weather.units.temp+'</h2>';
+          html += '<ul><li>'+weather.city+', '+weather.region+'</li>';
+          html += '<li class="currently">'+weather.currently+'</li>';
+          html += '<li>'+weather.wind.direction+' '+weather.wind.speed+' '+weather.units.speed+'</li></ul>';
+      
+          $("#weather-container").html(html);
+          cb();
+        },
+        error: function(error) {
+          $("#weather-container").html('<p>'+error+'</p>');
+          cb();
+        }
+      });
+   
 }
 
 var loadFirework = function() {
@@ -86,10 +88,12 @@ var toggleModal = function(currentInput) {
 
       switch (currentInput.intentName) {
         case 'Calendar':
+          console.log('CALENDAr');
           loadCalendar(cb);
           break;
-          
+
         case 'TodaysWeather':
+          console.log('weather');
           loadWeather(cb);
           break;
 
