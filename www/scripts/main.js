@@ -127,7 +127,8 @@ var toggleModal = function(currentInput) {
           loadMapDirections(cb, currentInput.slots.Destination)
           break;
       }
-    }
+    },
+    group : 'modals'
   });
 
   $('#modal').iziModal('open');
@@ -137,10 +138,14 @@ var processInput = function (currentInput) {
   if (typeof currentInput.intentName == 'undefined') {
     clearModal();
     return;
-  } else if (currentInput.dialogState != 'ReadyForFulfillment') {
+  } else if (currentInput.dialogState == 'Next'){
+      $('#modal').iziModal('next');
+  } else if (currentInput.dialogState == 'Prev'){
+      $('#modal').iziModal('prev');
+  }
+  else if (currentInput.dialogState != 'ReadyForFulfillment') {
     clearModal();
     return;
   }
-
   toggleModal(currentInput);
 };
