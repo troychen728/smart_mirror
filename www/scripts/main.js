@@ -59,10 +59,15 @@ var loadMapDirections = function(cb,destination){
   }
   mapIFrame.setAttribute('src', 'https://www.google.com/maps/embed/v1/directions?key=AIzaSyCrwiBAYIUr_b0bqB8RzYEhmF846TwC7Zg&origin=Edmunds+Ballroom&destination=' + destination);
   mapContainer.appendChild(mapIFrame);
-  cb();
 
   document.getElementById('map-container').classList.remove('inactive');
+  cb();
 }
+
+var loadStock = function(cb){
+  document.getElementById('stock-container').classList.remove('inactive');
+  cb();
+};
 
 var loadFirework = function() {
   document.getElementById("firework-container").appendChild(fireworkCanvas);
@@ -70,6 +75,7 @@ var loadFirework = function() {
   fireworkCanvas.height = SCREEN_HEIGHT;
   setInterval(launchFirework, 800);
   setInterval(loopFirework, 1000 / 50);
+  document.getElementById('easteregg').play();
   window.isFireworkStarted = true;
 };
 
@@ -154,7 +160,7 @@ $(document).ready(function() {
           loadWeather(cb, currentInput.slots.Location);
           break;
 
-        case 'Stock':
+        case 'stock':
           loadStock(cb);
           break;
 
