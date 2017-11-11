@@ -95,7 +95,9 @@
           if (err) {
             console.log(err, err.stack);
           } else {
+            state.audioOutput = data;
             inputData.push(data);
+            console.log(data);
             state.transition(new Speaking(state));
           }
         });
