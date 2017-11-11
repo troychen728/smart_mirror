@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+
+<!--
+
+See additional libraries, guides, and examples at:
+
+ - https://developer.leapmotion.com/downloads/javascript
+ - https://developer.leapmotion.com/getting-started/javascript
+ - https://developer.leapmotion.com/gallery/tags/javascript
+
+-->
+
+<html>
+<head>
+<style type="text/css">
+  body {
+    background-color: black;
+  }
+  #pointer {
+    position: absolute;
+  }
+  .fa-hand-spock-o {
+    color: white;
+  }
+</style>
+<link rel="stylesheet" href="font-awesome-4.7.0/css/font-awesome.min.css">`
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Leap Motion JavaScript Sample</title>
+<script src="http://js.leapmotion.com/leap-0.6.3.js"></script>
+<script>
+// Store frame for motion functions
+var previousFrame = null;
+
+// Setup Leap loop with frame callback function
+var controllerOptions = {enableGestures: true};
+
+Leap.loop(controllerOptions, function(frame) {
+  if (frame.pointables.length > 0) {
+    var iBox = frame.interactionBox;
+    var finger = frame.pointables[0];
+    var leapPoint = finger.stabilizedTipPosition;
+    var normalizedPoint = iBox.normalizePoint(leapPoint, true);
+
+    var appWidth = 1080;
+    var appHeight = 1920;
+
+    var appX = normalizedPoint[0] * appWidth;
+    var appY = (1 - normalizedPoint[1]) * appHeight;
+    setPointerLocation(appX, appY);
+  }
+
+  var gestureOutput = document.getElementById("gestureData");
+  if (frame.gestures.length > 0) {
+    for(var i = 0; i < frame.gestures.length; i++) {
+      var gesture = frame.gestures[i];
+      switch (gesture.type) {
+        case "circle":
+          activateListener();
+          break;
+        default:
+          break;
+      }
+    }
+  }
+});
+
+function activateListener(){
+  console.log("Called the circle gesture");
+  // document.getElementById("audio-control").click();
+}
+
+function setPointerLocation(x,y) {
+  console.log("Called ", x, y);
+  var pointer = document.getElementById('pointer');
+  var pointerParent = pointer.parentNode;
+  pointerParent.removeChild(pointer);
+  var newPointer = createNewPointer(x,y);
+  pointerParent.appendChild(newPointer);
+}
+
+function createNewPointer(x,y) {
+  var newPointer = document.createElement("DIV");
+  newPointer.id = "pointer";
+  newPointer.style.position = "absolute";
+  newPointer.style.left = x+'px';
+  newPointer.style.top = y+'px';
+  var newIcon = document.createElement("I");
+  newIcon.classList.add('fa');
+  newIcon.classList.add("fa-hand-spock-o");
+  newIcon.classList.add("fa-3x");
+  newPointer.appendChild(newIcon);
+  return newPointer;
+}
+
+</script>
+</head>
+<body>
+  <div id="pointer">
+    <i class="fa fa-hand-spock-o fa-3x"></i>
+  </div>
+</body>
+</html>
