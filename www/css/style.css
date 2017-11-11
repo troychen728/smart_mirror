@@ -32,10 +32,11 @@
         color: #444;
         font-size: 13px;
         font-weight: 400;
-        background-color: #f9fafc;
+        background-color: #000000;
+        overflow: hidden;
     }
     
-    canvas {
+    .visualizer {
         height: 100px;
         width: 100vw;
         margin-top: -50px;
