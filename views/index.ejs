@@ -24,12 +24,14 @@
     <!-- Leap Motion related CSS -->
     <style type="text/css">
       #pointer {
-        position: absolute;
+        z-index: 999999999999;
       }
       .fa-hand-spock-o {
+        position: relative;
         color: white;
-    }
-</style>
+        z-index: 999999999999;
+      }
+    </style>
 </head>
 
 <body class="wrapper" id="app-container">
@@ -92,74 +94,73 @@
     <!-- Leap motion related scripts -->
     <script src="http://js.leapmotion.com/leap-0.6.3.js"></script>
     <script>
-    // Store frame for motion functions
-    var previousFrame = null;
+        // Store frame for motion functions
+        var previousFrame = null;
 
-    // Setup Leap loop with frame callback function
-    var controllerOptions = {enableGestures: true};
+        // Setup Leap loop with frame callback function
+        var controllerOptions = {enableGestures: true};
 
-    Leap.loop(controllerOptions, function(frame) {
-      if (frame.pointables.length > 0) {
-        var iBox = frame.interactionBox;
-        var finger = frame.pointables[0];
-        var leapPoint = finger.stabilizedTipPosition;
-        var normalizedPoint = iBox.normalizePoint(leapPoint, true);
+        Leap.loop(controllerOptions, function(frame) {
+          if (frame.pointables.length > 0) {
+            var iBox = frame.interactionBox;
+            var finger = frame.pointables[0];
+            var leapPoint = finger.stabilizedTipPosition;
+            var normalizedPoint = iBox.normalizePoint(leapPoint, true);
 
-        var appWidth = 1080;
-        var appHeight = 1920;
+            var appWidth = 1080;
+            var appHeight = 1920;
 
-        var appX = normalizedPoint[0] * appWidth;
-        var appY = (1 - normalizedPoint[1]) * appHeight;
-        setPointerLocation(appX, appY);
-      }
-
-      var gestureOutput = document.getElementById("gestureData");
-      if (frame.gestures.length > 0) {
-        for(var i = 0; i < frame.gestures.length; i++) {
-          var gesture = frame.gestures[i];
-          switch (gesture.type) {
-            case "circle":
-              activateListener();
-              break;
-            case "screenTap":
-              break;
-            case "keyTap":
-              break;
-            default:
-              break;
+            var appX = normalizedPoint[0] * appWidth;
+            var appY = (1 - normalizedPoint[1]) * appHeight;
+            setPointerLocation(appX, appY);
           }
+
+          var gestureOutput = document.getElementById("gestureData");
+          if (frame.gestures.length > 0) {
+            for(var i = 0; i < frame.gestures.length; i++) {
+              var gesture = frame.gestures[i];
+              switch (gesture.type) {
+                case "circle":
+                  // activateListener();
+                  break;
+                case "screenTap":
+                  break;
+                case "keyTap":
+                  break;
+                default:
+                  break;
+              }
+            }
+          }
+        });
+
+        function activateListener(){
+          console.log("Called the circle gesture");
+          document.getElementById("audio-control").click();
         }
-      }
-    });
 
-    function activateListener(){
-      console.log("Called the circle gesture");
-      // document.getElementById("audio-control").click();
-    }
+        function setPointerLocation(x,y) {
+          console.log("Called ", x, y);
+          var pointer = document.getElementById('pointer');
+          var pointerParent = pointer.parentNode;
+          pointerParent.removeChild(pointer);
+          var newPointer = createNewPointer(x,y);
+          pointerParent.appendChild(newPointer);
+        }
 
-    function setPointerLocation(x,y) {
-      console.log("Called ", x, y);
-      var pointer = document.getElementById('pointer');
-      var pointerParent = pointer.parentNode;
-      pointerParent.removeChild(pointer);
-      var newPointer = createNewPointer(x,y);
-      pointerParent.appendChild(newPointer);
-    }
-
-    function createNewPointer(x,y) {
-      var newPointer = document.createElement("DIV");
-      newPointer.id = "pointer";
-      newPointer.style.position = "absolute";
-      newPointer.style.left = x+'px';
-      newPointer.style.top = y+'px';
-      var newIcon = document.createElement("I");
-      newIcon.classList.add('fa');
-      newIcon.classList.add("fa-hand-spock-o");
-      newIcon.classList.add("fa-3x");
-      newPointer.appendChild(newIcon);
-      return newPointer;
-    }
-
+        function createNewPointer(x,y) {
+          var newPointer = document.createElement("DIV");
+          newPointer.id = "pointer";
+          newPointer.style.position = "absolute";
+          newPointer.style.left = x+'px';
+          newPointer.style.top = y+'px';
+          var newIcon = document.createElement("I");
+          newIcon.classList.add('fa');
+          newIcon.classList.add("fa-hand-spock-o");
+          newIcon.classList.add("fa-3x");
+          newPointer.appendChild(newIcon);
+          return newPointer;
+        }
     </script>
 </body>
 
