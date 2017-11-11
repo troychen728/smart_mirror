@@ -96,6 +96,8 @@
             console.log(err, err.stack);
           } else {
             state.audioOutput = data;
+            console.log(data);
+            processInput(data);
             state.transition(new Speaking(state));
           }
         });
@@ -123,8 +125,6 @@
         var conversation = new Conversation(message);
         message.textContent = conversation.message;
         document.getElementById('audio-control').onclick = function() {
-          var ACCESS_KEY_ID = "AKIAI72VV7FVOZDJLNSA";
-          var SECRET_KEY = "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";
           var BOT_NAME = "SmartMirror";
 
           params = {
@@ -137,7 +137,7 @@
 
           lexruntime = new AWS.LexRuntime({
             region: 'us-east-1',
-            credentials: new AWS.Credentials(ACCESS_KEY_ID, SECRET_KEY, null)
+            credentials: new AWS.Credentials(window.ACCESS_KEY_ID, window.SECRET_KEY, null)
           });
           conversation.advanceConversation();
         };
