@@ -82,6 +82,8 @@
 
     <script type="text/javascript">
     window.lexaudio = {};
+//    window.recordingStarted = false;
+//    window.shouldStopRecording = false;
 
     window.ACCESS_KEY_ID = "<%= access_key %>";
     window.SECRET_KEY = "<%= secret_key %>";
@@ -132,7 +134,13 @@
               var gesture = frame.gestures[i];
               switch (gesture.type) {
                 case "circle":
-                  // activateListener();
+                  activateListener();
+//                  if (!window.recordingStarted) {
+//                    activateListener();
+//                    window.recordingStarted = true;
+//                  } else {
+//                    window.shouldStopRecording = true;
+//                  }
                   break;
                 case "screenTap":
                   break;

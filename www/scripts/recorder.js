@@ -29,7 +29,7 @@
 
     var recording = false,
       initialized = false,
-      currCallback, start, silenceCallback, visualizationCallback;
+      currCallback, start, origStart, silenceCallback, visualizationCallback;
 
     // Create a ScriptProcessorNode with a bufferSize of 4096 and a single input and output channel
     var node = source.context.createScriptProcessor(4096, 1, 1);
@@ -55,6 +55,7 @@
       silenceCallback = onSilence;
       visualizationCallback = visualizer;
       start = Date.now();
+      origStart = start;
       recording = true;
     };
 
@@ -128,7 +129,14 @@
           audioProcessingEvent.inputBuffer.getChannelData(0),
         ]
       });
-      startSilenceDetection();
+
+      var newtime = Date.now();
+      var elapsedTime = newtime - origStart;
+      if (elapsedTime > 5000) {
+        silenceCallback();
+      } else {
+        startSilenceDetection();
+      }
     };
 
     var analyser = source.context.createAnalyser();
