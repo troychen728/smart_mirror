@@ -40,6 +40,9 @@ var toggleModal = function(currentInput) {
         case 'Calendar':
           loadCalendar(cb);
           break;
+        case 'Stock':
+          loadStock(cb);
+          break;
       }
     }
   });
