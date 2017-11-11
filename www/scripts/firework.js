@@ -6,21 +6,12 @@ var SCREEN_WIDTH = window.innerWidth,
     },
 
     // create canvas
-    canvas = document.createElement('canvas'),
-    context = canvas.getContext('2d'),
+    fireworkCanvas = document.createElement('canvas'),
+    context = fireworkCanvas.getContext('2d'),
     particles = [],
     rockets = [],
     MAX_PARTICLES = 400,
     colorCode = 0;
-
-// init
-$(document).ready(function() {
-  document.getElementById("firework-container").appendChild(canvas);
-  canvas.width = SCREEN_WIDTH;
-  canvas.height = SCREEN_HEIGHT;
-  setInterval(launch, 800);
-  setInterval(loop, 1000 / 50);
-});
 
 // update mouse position
 $(document).mousemove(function(e) {
@@ -38,7 +29,7 @@ $(document).mousedown(function(e) {
   }
 });
 
-function launch() {
+function launchFirework() {
   launchFrom(mousePos.x);
 }
 
@@ -55,13 +46,13 @@ function launchFrom(x) {
   }
 }
 
-function loop() {
+function loopFirework() {
   // update screen size
   if (SCREEN_WIDTH != window.innerWidth) {
-    canvas.width = SCREEN_WIDTH = window.innerWidth;
+    fireworkCanvas.width = SCREEN_WIDTH = window.innerWidth;
   }
   if (SCREEN_HEIGHT != window.innerHeight) {
-    canvas.height = SCREEN_HEIGHT = window.innerHeight;
+    fireworkCanvas.height = SCREEN_HEIGHT = window.innerHeight;
   }
 
   // clear canvas
