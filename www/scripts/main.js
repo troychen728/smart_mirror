@@ -1,4 +1,5 @@
 window.isModalOpened = false;
+window.isFireworkStarted = false;
 
 var loadCalendar = function(cb) {
   $('#calendar-container').fullCalendar({
@@ -17,20 +18,40 @@ var loadCalendar = function(cb) {
   });
 };
 
+var loadFirework = function() {
+  document.getElementById("firework-container").appendChild(fireworkCanvas);
+  fireworkCanvas.width = SCREEN_WIDTH;
+  fireworkCanvas.height = SCREEN_HEIGHT;
+  setInterval(launchFirework, 800);
+  setInterval(loopFirework, 1000 / 50);
+  window.isFireworkStarted = true;
+};
+
 var clearModal = function(modal) {
   $('#modal').iziModal('close');
   window.isModalOpened = false;
+
+  if (window.isFireworkStarted) {
+    document.getElementById("firework-container").innerHTML = "";
+    window.isFireworkStarted = false;
+  }
 };
 
 var toggleModal = function(currentInput) {
-  if (window.isModalOpened) {
+  if (window.isModalOpened || currentInput.intentName == 'clear') {
     clearModal(modal);
+  } else if (window.isModalOpened) {
     var containers = document.getElementById("modal").children;
     for (var i = 0; i < containers.length; ++i) {
       if (containers[i].children.length > 0) {
         containers[i].innerHTML = "";
       }
     }
+  }
+
+  if (currentInput.intentName == 'Beautiful') {
+    loadFirework();
+    return;
   }
 
   $("#modal").iziModal({
