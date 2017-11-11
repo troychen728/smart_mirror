@@ -75,6 +75,7 @@
     var exportWAV = function(callback) {
       recorder.exportWAV(function(blob) {
         callback(blob);
+        recorder.clear();
       });
     };
 
