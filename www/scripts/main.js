@@ -18,10 +18,10 @@ var loadCalendar = function(cb) {
   });
 };
 
-var loadWeather = function(cb){
-  console.log("haha") ;
+var loadWeather = function(cb,city){
+
       $.simpleWeather({
-        location: 'Claremont, CA',
+        location: city,
         woeid: '',
         unit: 'f',
         success: function(weather) {
@@ -88,13 +88,11 @@ var toggleModal = function(currentInput) {
 
       switch (currentInput.intentName) {
         case 'Calendar':
-          console.log('CALENDAr');
           loadCalendar(cb);
           break;
 
         case 'TodaysWeather':
-          console.log('weather');
-          loadWeather(cb);
+          loadWeather(cb, currentInput.slots.Location);
           break;
 
         case 'Stock':
