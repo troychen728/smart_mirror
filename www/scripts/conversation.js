@@ -14,7 +14,7 @@
  * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-(function(lexaudio) {
+(function(lexaudio, inputData) {
   'use strict';
 
   function example() {
@@ -95,8 +95,7 @@
           if (err) {
             console.log(err, err.stack);
           } else {
-            console.log(data);
-            state.audioOutput = data;
+            inputData.push(data);
             state.transition(new Speaking(state));
           }
         });
@@ -146,4 +145,4 @@
     });
   }
   lexaudio.example = example;
-})(lexaudio);
+})(lexaudio, inputData);
