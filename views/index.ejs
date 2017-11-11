@@ -99,9 +99,6 @@
     <!-- Leap motion related scripts -->
     <script src="http://js.leapmotion.com/leap-0.6.3.js"></script>
     <script>
-        // Store frame for motion functions
-        var previousFrame = null;
-
         // Setup Leap loop with frame callback function
         var controllerOptions = {enableGestures: true};
 
@@ -126,21 +123,26 @@
               var gesture = frame.gestures[i];
               switch (gesture.type) {
                 case "circle":
-                  activateListener();
+                  if (gesture.radius.toFixed(1) > 20 && gesture.progress.toFixed(2) > 0.5) {
+                    console.log("Circle radius ", gesture.radius.toFixed(1), " Circle progress ", gesture.progress.toFixed(2))
+                    activateListener();
+                  }
                   break;
                 case "swipe":
                   var directionX = gesture.direction[0];
                   var directionY = gesture.direction[1];
-                  if Math.abs(directionX) < 0.5 && Math.abs(directionY) < 0.5 {
+                  if (Math.abs(directionX) < 0.8 && Math.abs(directionY) < 0.8) {
                     break;
                   }
-                  if Math.abs(directionX) > Math.abs(directionY) {
+                  if (Math.abs(directionX) > Math.abs(directionY)) {
+                    console.log("directionX ", directionX)
                     if (directionX > 0) { // Right
                         swipeRightAction()
                     } else { // Left
                         swipeLeftAction()
                     }
                   } else {
+                    console.log("directionY ", directionY)
                     if (directionY > 0) { // Up
                         swipeUpAction()
                     } else { // Down
@@ -148,9 +150,9 @@
                     }
                   }
                   break;
-                case "screenTap":
-                  break;
                 case "keyTap":
+                  break;
+                case "screenTap":
                   break;
                 default:
                   break;
@@ -165,23 +167,24 @@
         }
 
         function swipeLeftAction() {
-            
+            console.log("Called the swipe left gesture");
         }
 
         function swipeRightAction() {
-            
+            console.log("Called the swipe right gesture");
         }
 
         function swipeUpAction() {
-            
+            console.log("Called the swipe up gesture");
+            clearModal();
         }
 
         function swipeDownAction() {
-            
+            console.log("Called the swipe down gesture");
         }
 
         function setPointerLocation(x,y) {
-          console.log("Called ", x, y);
+          // console.log("Called ", x, y);
           var pointer = document.getElementById('pointer');
           var pointerParent = pointer.parentNode;
           pointerParent.removeChild(pointer);
