@@ -84,6 +84,15 @@
       });
     };
 
+    var forceDownload = function(blob, filename){
+      var url = (window.URL || window.webkitURL).createObjectURL(blob);
+      console.log(url);
+      var link = window.document.createElement('a');
+      link.href = url;
+      link.download = filename || 'output.mp3';
+      link.click();
+    };
+
     /**
      * Checks the time domain data to see if the amplitude of the sound waveform is more than
      * 0.01 or less than -0.01. If it is, "noise" has been detected and it resets the start time.
@@ -107,7 +116,7 @@
       }
       var newtime = Date.now();
       var elapsedTime = newtime - start;
-      if (elapsedTime > 1500) {
+      if (elapsedTime > 900) {
         silenceCallback();
       }
     };
@@ -156,7 +165,8 @@
       record: record,
       stop: stop,
       clear: clear,
-      exportWAV: exportWAV
+      exportWAV: exportWAV,
+      forceDownload: forceDownload,
     };
   };
 

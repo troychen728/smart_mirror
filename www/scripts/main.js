@@ -10,6 +10,20 @@ window.containerList = [
 ];
 
 var loadCalendar = function(cb) {
+  $('#calendar-container').fullCalendar({
+    header: {
+      left: 'prev,next today',
+      center: 'title',
+      right: 'listWeek,listDay'
+    },
+    defaultView: 'listWeek',
+    editable: true,
+    googleCalendarApiKey: 'AIzaSyBVr__FHZ_zjXWEmNnPARenKsHXiZPlRxc',
+    events: {
+      googleCalendarId: '2017smartmirror2017@gmail.com'
+    },
+  });
+
   document.getElementById('calendar-container').classList.remove('inactive');
   cb();
 };
@@ -44,8 +58,8 @@ var loadMapDirections = function(cb,destination){
     mapContainer.removeChild(mapContainer.lastChild);
   }
   var mapIFrame = document.createElement("IFRAME");
-  mapIFrame.setAttribute('width', '450');
-  mapIFrame.setAttribute('height', '250');
+  mapIFrame.setAttribute('width', '600');
+  mapIFrame.setAttribute('height', '750');
   mapIFrame.setAttribute('frameborder', '0');
   mapIFrame.setAttribute('style', 'border:0');
   if (destination == "work") {
@@ -59,10 +73,15 @@ var loadMapDirections = function(cb,destination){
   }
   mapIFrame.setAttribute('src', 'https://www.google.com/maps/embed/v1/directions?key=AIzaSyCrwiBAYIUr_b0bqB8RzYEhmF846TwC7Zg&origin=Edmunds+Ballroom&destination=' + destination);
   mapContainer.appendChild(mapIFrame);
-  cb();
 
   document.getElementById('map-container').classList.remove('inactive');
+  cb();
 }
+
+var loadStock = function(cb){
+  document.getElementById('stock-container').classList.remove('inactive');
+  cb();
+};
 
 var loadFirework = function() {
   document.getElementById("firework-container").appendChild(fireworkCanvas);
@@ -70,6 +89,7 @@ var loadFirework = function() {
   fireworkCanvas.height = SCREEN_HEIGHT;
   setInterval(launchFirework, 800);
   setInterval(loopFirework, 1000 / 50);
+  document.getElementById('easteregg').play();
   window.isFireworkStarted = true;
 };
 
@@ -294,20 +314,6 @@ $(document).ready(function() {
       document.getElementById(window.containerList[i]).classList.add('inactive');
     }
   }
-
-  $('#calendar-container').fullCalendar({
-    header: {
-      left: 'prev,next today',
-      center: 'title',
-      right: 'agendaWeek,agendaDay'
-    },
-    defaultView: 'agendaDay',
-    editable: true,
-    googleCalendarApiKey: 'AIzaSyBVr__FHZ_zjXWEmNnPARenKsHXiZPlRxc',
-    events: {
-      googleCalendarId: '2017smartmirror2017@gmail.com'
-    },
-  });
 
   $("#modal").iziModal({
     onOpening: function(modal) {
