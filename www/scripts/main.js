@@ -44,8 +44,8 @@ var loadMapDirections = function(cb,destination){
     mapContainer.removeChild(mapContainer.lastChild);
   }
   var mapIFrame = document.createElement("IFRAME");
-  mapIFrame.setAttribute('width', '450');
-  mapIFrame.setAttribute('height', '250');
+  mapIFrame.setAttribute('width', '600');
+  mapIFrame.setAttribute('height', '750');
   mapIFrame.setAttribute('frameborder', '0');
   mapIFrame.setAttribute('style', 'border:0');
   if (destination == "work") {
