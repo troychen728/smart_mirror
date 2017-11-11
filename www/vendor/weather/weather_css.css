@@ -10,8 +10,7 @@
 }
 
 #weather-container {
-  width: 500px;
-  margin: 0px auto;
+  margin: 0px;
   text-align: center;
   text-transform: uppercase;
 }
@@ -75,11 +74,12 @@
 .icon-47:before { content: "S"; }
 
 #weather-container h2 {
+    color: #fff;
   margin: 0 0 8px;
   font-size: 100px;
   font-weight: 300;
   text-align: center;
-  text-shadow: 0px 1px 3px rgba(0, 0, 0, 0.15);
+  text-shadow: 0px 1px 3px rgba(220, 220, 220, 0.15);
 }
 
 #weather-container ul {
@@ -88,11 +88,13 @@
 }
 
 #weather-container li {
-  background: #fff;
-  background: rgba(255,255,255,0.90);
+  /*background: #fff;*/
+  /*background: rgba(255,255,255,0.90);*/
+    color: #fff;
   padding: 20px;
   display: inline-block;
   border-radius: 5px;
+    font-weight: bold;
 }
 
 #weather-container .currently {
