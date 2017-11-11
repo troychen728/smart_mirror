@@ -62,8 +62,8 @@
           return;
         }
 
-        canvasCtx.fillStyle = 'rgb(249,250,252)';
-        canvasCtx.fillRect(0, 0, WIDTH, HEIGHT);
+        // canvasCtx.fillStyle = 'rgb(249,250,252)';
+        // canvasCtx.fillRect(0, 0, WIDTH, HEIGHT);
         canvasCtx.lineWidth = 1;
         canvasCtx.strokeStyle = 'rgb(0,125,188)';
         canvasCtx.beginPath();
