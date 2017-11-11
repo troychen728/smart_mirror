@@ -19,7 +19,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.6.2/fullcalendar.min.css">
 
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="vendor/font-awesome-4.7.0/css/font-awesome.min.css">`
+    <link rel="stylesheet" href="vendor/font-awesome-4.7.0/css/font-awesome.min.css">
+
+    <link rel="stylesheet" href="vendor/weather/weather_css.css">
 
     <!-- Leap Motion related CSS -->
     <style type="text/css">
@@ -35,11 +37,6 @@
 </head>
 
 <body class="wrapper" id="app-container">
-    <!-- clock widget --> 
-    <div style="text-align:center;padding:1em 0;"> 
-        <h2><a style="text-decoration:none;" href="https://www.zeitverschiebung.net/en/city/5337696"><span style="color:black;"></a></h2> <iframe src="https://www.zeitverschiebung.net/clock-widget-iframe-v2?language=en&size=large&timezone=America%2FLos_Angeles" width="100%" height="140" frameborder="0" seamless></iframe> 
-    </div>
-
     <!-- Modal structure -->
     <div id="modal">
         <div id='calendar-container'></div>
@@ -71,11 +68,22 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.6.2/fullcalendar.min.js"></script>
     <script src="vendor/fullcalendar/gcal.js" type="text/javascript"></script>
 
+     <!-- Weather Widget -->
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.simpleWeather/3.1.0/jquery.simpleWeather.min.js"></script> 
+     <script src="vendor/weather/jquery.simpleWeather.min.js" type="text/javascript"></script>
+       
+    <!-- clock widget --> 
+    <div style="text-align:center;padding:1em 0;"> 
+            <h2><span style="color:black;">/h2> <iframe src="https://www.zeitverschiebung.net/clock-widget-iframe-v2?language=en&size=large&timezone=America%2FLos_Angeles" width="100%" height="140" frameborder="0" seamless></iframe> 
+    </div>
+
     <!-- Firework Widget -->
     <script src="scripts/firework.js" type="text/javascript"></script>
 
     <script type="text/javascript">
     window.lexaudio = {};
+//    window.recordingStarted = false;
+//    window.shouldStopRecording = false;
 
     window.ACCESS_KEY_ID = "<%= access_key %>";
     window.SECRET_KEY = "<%= secret_key %>";
@@ -99,9 +107,6 @@
     <!-- Leap motion related scripts -->
     <script src="http://js.leapmotion.com/leap-0.6.3.js"></script>
     <script>
-        // Store frame for motion functions
-        var previousFrame = null;
-
         // Setup Leap loop with frame callback function
         var controllerOptions = {enableGestures: true};
 
@@ -126,11 +131,42 @@
               var gesture = frame.gestures[i];
               switch (gesture.type) {
                 case "circle":
-                  // activateListener();
+                  if (gesture.radius.toFixed(1) > 20 && gesture.progress.toFixed(2) > 0.5) {
+                    console.log("Circle radius ", gesture.radius.toFixed(1), " Circle progress ", gesture.progress.toFixed(2))
+                    activateListener();
+                  }
+//                  if (!window.recordingStarted) {
+//                    activateListener();
+//                    window.recordingStarted = true;
+//                  } else {
+//                    window.shouldStopRecording = true;
+//                  }
                   break;
-                case "screenTap":
+                case "swipe":
+                  var directionX = gesture.direction[0];
+                  var directionY = gesture.direction[1];
+                  if (Math.abs(directionX) < 0.8 && Math.abs(directionY) < 0.8) {
+                    break;
+                  }
+                  if (Math.abs(directionX) > Math.abs(directionY)) {
+                    console.log("directionX ", directionX)
+                    if (directionX > 0) { // Right
+                        swipeRightAction()
+                    } else { // Left
+                        swipeLeftAction()
+                    }
+                  } else {
+                    console.log("directionY ", directionY)
+                    if (directionY > 0) { // Up
+                        swipeUpAction()
+                    } else { // Down
+                        swipeDownAction()
+                    }
+                  }
                   break;
                 case "keyTap":
+                  break;
+                case "screenTap":
                   break;
                 default:
                   break;
@@ -144,8 +180,25 @@
           document.getElementById("audio-control").click();
         }
 
+        function swipeLeftAction() {
+            console.log("Called the swipe left gesture");
+        }
+
+        function swipeRightAction() {
+            console.log("Called the swipe right gesture");
+        }
+
+        function swipeUpAction() {
+            console.log("Called the swipe up gesture");
+            clearModal();
+        }
+
+        function swipeDownAction() {
+            console.log("Called the swipe down gesture");
+        }
+
         function setPointerLocation(x,y) {
-          console.log("Called ", x, y);
+          // console.log("Called ", x, y);
           var pointer = document.getElementById('pointer');
           var pointerParent = pointer.parentNode;
           pointerParent.removeChild(pointer);
@@ -165,6 +218,15 @@
           newIcon.classList.add("fa-3x");
           newPointer.appendChild(newIcon);
           return newPointer;
+        }
+
+        function vectorToString(vector, digits) {
+          if (typeof digits === "undefined") {
+            digits = 1;
+          }
+          return "(" + vector[0].toFixed(digits) + ", "
+                     + vector[1].toFixed(digits) + ", "
+                     + vector[2].toFixed(digits) + ")";
         }
     </script>
 </body>
