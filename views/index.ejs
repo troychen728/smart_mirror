@@ -148,7 +148,7 @@
               switch (gesture.type) {
                 case "circle":
                   if (gesture.radius.toFixed(1) > 20 && gesture.progress.toFixed(2) > 0.5) {
-                    console.log("Circle radius ", gesture.radius.toFixed(1), " Circle progress ", gesture.progress.toFixed(2))
+//                    console.log("Circle radius ", gesture.radius.toFixed(1), " Circle progress ", gesture.progress.toFixed(2))
                     activateListener();
                   }
                   break;
@@ -159,14 +159,14 @@
                     break;
                   }
                   if (Math.abs(directionX) > Math.abs(directionY)) {
-                    console.log("directionX ", directionX)
+//                    console.log("directionX ", directionX)
                     if (directionX > 0) { // Right
                         swipeRightAction()
                     } else { // Left
                         swipeLeftAction()
                     }
                   } else {
-                    console.log("directionY ", directionY)
+//                    console.log("directionY ", directionY)
                     if (directionY > 0) { // Up
                         swipeUpAction()
                     } else { // Down
@@ -186,21 +186,21 @@
         });
 
         function activateListener(){
-          console.log("Called the circle gesture");
+//          console.log("Called the circle gesture");
           document.getElementById("audio-control").click();
           window.recordingStarted = true;
         }
 
         function swipeLeftAction() {
-            console.log("Called the swipe left gesture");
+//            console.log("Called the swipe left gesture");
         }
 
         function swipeRightAction() {
-            console.log("Called the swipe right gesture");
+//            console.log("Called the swipe right gesture");
         }
 
         function swipeUpAction() {
-            console.log("Called the swipe up gesture");
+//            console.log("Called the swipe up gesture");
             clearModal();
         }
 

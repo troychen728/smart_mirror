@@ -146,7 +146,6 @@
       } else if (window.shouldStopRecording) {
         console.log('hit');
         silenceCallback();
-        window.shouldStopRecording = false;
       } else {
         startSilenceDetection();
       }

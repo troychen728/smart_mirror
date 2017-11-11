@@ -80,10 +80,15 @@
       this.state = state;
       state.message = state.messages.LISTENING;
       this.advanceConversation = function() {
-        audioControl.exportWAV(function(blob) {
-          state.audioInput = blob;
-          state.transition(new Sending(state));
-        });
+        if (window.shouldStopRecording) {
+          window.shouldStopRecording = false;
+          state.transition(new Initial(state));
+        } else {
+          audioControl.exportWAV(function(blob) {
+            state.audioInput = blob;
+            state.transition(new Sending(state));
+          });
+        }
       }
     };
 
