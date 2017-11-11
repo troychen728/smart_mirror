@@ -104,6 +104,7 @@
 
     var Speaking = function(state) {
       this.state = state;
+      console.log(state);
       state.message = state.messages.SPEAKING;
       this.advanceConversation = function() {
         if (state.audioOutput.contentType === 'audio/mpeg') {
@@ -123,8 +124,8 @@
         var conversation = new Conversation(message);
         message.textContent = conversation.message;
         document.getElementById('audio-control').onclick = function() {
-          var ACCESS_KEY_ID = "AKIAI72VV7FVOZDJLNSA";
-          var SECRET_KEY = "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";
+          var ACCESS_KEY_ID = "U2FsdGVkX18LwKtGpj9V++9sywxSDjm4PGVlOKWG+sxN+XkW4kVJJcua5tGDIres";
+          var SECRET_KEY = "U2FsdGVkX18u9dUpNCxNYcnccfY/x5HvPhLcPNjMjebMPafUmKTvIGtH0jfQyVJz03e6tfF0UwXZ4MXBKh7oaQ==";
           var BOT_NAME = "SmartMirror";
 
           params = {
@@ -137,7 +138,10 @@
 
           lexruntime = new AWS.LexRuntime({
             region: 'us-east-1',
-            credentials: new AWS.Credentials(ACCESS_KEY_ID, SECRET_KEY, null)
+            credentials: new AWS.Credentials(
+                CryptoJS.AES.decrypt(ACCESS_KEY_ID, "smart-mirror").toString(CryptoJS.enc.Utf8),
+                CryptoJS.AES.decrypt(SECRET_KEY, "smart-mirror").toString(CryptoJS.enc.Utf8),
+                null)
           });
           conversation.advanceConversation();
         };
