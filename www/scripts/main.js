@@ -17,8 +17,14 @@ var loadCalendar = function(cb) {
   });
 };
 
+var clearModal = function(modal) {
+  $('#modal').iziModal('close');
+  window.isModalOpened = false;
+};
+
 var toggleModal = function(currentInput) {
   if (window.isModalOpened) {
+    clearModal(modal);
     var containers = document.getElementById("modal").children;
     for (var i = 0; i < containers.length; ++i) {
       if (containers[i].children.length > 0) {
@@ -52,6 +58,10 @@ var toggleModal = function(currentInput) {
 
 var processInput = function (currentInput) {
   if (typeof currentInput.intentName == 'undefined') {
+    clearModal();
+    return;
+  } else if (currentInput.dialogState != 'ReadyForFulfillment') {
+    clearModal();
     return;
   }
 

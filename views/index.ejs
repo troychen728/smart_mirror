@@ -17,6 +17,19 @@
 
     <!-- Calendar Widget -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.6.2/fullcalendar.min.css">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="font-awesome-4.7.0/css/font-awesome.min.css">`
+
+    <!-- Leap Motion related CSS -->
+    <style type="text/css">
+      #pointer {
+        position: absolute;
+      }
+      .fa-hand-spock-o {
+        color: white;
+    }
+</style>
 </head>
 
 <body class="wrapper" id="app-container">
@@ -36,6 +49,8 @@
         <p><span id="message"></span></p>
     </div>
 
+    <div id="firework-container" style="margin: 0px;"></div>
+
     <script src="https://sdk.amazonaws.com/js/aws-sdk-2.48.0.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"
             integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
@@ -51,6 +66,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.6.2/fullcalendar.min.js"></script>
     <script src="vendor/fullcalendar/gcal.js" type="text/javascript"></script>
 
+    <!-- Firework Widget -->
+    <script src="scripts/firework.js" type="text/javascript"></script>
+
     <script type="text/javascript">
     window.lexaudio = {};
 
@@ -65,6 +83,84 @@
     if (window.addEventListener) window.addEventListener("load", new lexaudio.example(), false);
     else if (window.attachEvent) window.attachEvent("onload", setup(new lexaudio.example()));
     else window.onload = new lexaudio.example();
+    </script>
+
+    <!-- Pointer for Leap Motion -->
+    <div id="pointer">
+        <i class="fa fa-hand-spock-o fa-3x"></i>
+    </div>
+
+    <!-- Leap motion related scripts -->
+    <script src="http://js.leapmotion.com/leap-0.6.3.js"></script>
+    <script>
+    // Store frame for motion functions
+    var previousFrame = null;
+
+    // Setup Leap loop with frame callback function
+    var controllerOptions = {enableGestures: true};
+
+    Leap.loop(controllerOptions, function(frame) {
+      if (frame.pointables.length > 0) {
+        var iBox = frame.interactionBox;
+        var finger = frame.pointables[0];
+        var leapPoint = finger.stabilizedTipPosition;
+        var normalizedPoint = iBox.normalizePoint(leapPoint, true);
+
+        var appWidth = 1080;
+        var appHeight = 1920;
+
+        var appX = normalizedPoint[0] * appWidth;
+        var appY = (1 - normalizedPoint[1]) * appHeight;
+        setPointerLocation(appX, appY);
+      }
+
+      var gestureOutput = document.getElementById("gestureData");
+      if (frame.gestures.length > 0) {
+        for(var i = 0; i < frame.gestures.length; i++) {
+          var gesture = frame.gestures[i];
+          switch (gesture.type) {
+            case "circle":
+              activateListener();
+              break;
+            case "screenTap":
+              break;
+            case "keyTap":
+              break;
+            default:
+              break;
+          }
+        }
+      }
+    });
+
+    function activateListener(){
+      console.log("Called the circle gesture");
+      // document.getElementById("audio-control").click();
+    }
+
+    function setPointerLocation(x,y) {
+      console.log("Called ", x, y);
+      var pointer = document.getElementById('pointer');
+      var pointerParent = pointer.parentNode;
+      pointerParent.removeChild(pointer);
+      var newPointer = createNewPointer(x,y);
+      pointerParent.appendChild(newPointer);
+    }
+
+    function createNewPointer(x,y) {
+      var newPointer = document.createElement("DIV");
+      newPointer.id = "pointer";
+      newPointer.style.position = "absolute";
+      newPointer.style.left = x+'px';
+      newPointer.style.top = y+'px';
+      var newIcon = document.createElement("I");
+      newIcon.classList.add('fa');
+      newIcon.classList.add("fa-hand-spock-o");
+      newIcon.classList.add("fa-3x");
+      newPointer.appendChild(newIcon);
+      return newPointer;
+    }
+
     </script>
 </body>
 
