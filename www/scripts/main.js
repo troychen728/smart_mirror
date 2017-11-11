@@ -264,6 +264,7 @@ var loadGame = function(cb) {
 
   draw();
   cb();
+  document.getElementById('game-container').classList.remove('inactive');
 }
 
 var clearModal = function() {
