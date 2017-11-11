@@ -116,7 +116,7 @@
       }
       var newtime = Date.now();
       var elapsedTime = newtime - start;
-      if (elapsedTime > 900) {
+      if (elapsedTime > 1500) {
         silenceCallback();
       }
     };

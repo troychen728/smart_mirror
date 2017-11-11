@@ -7,6 +7,7 @@ window.containerList = [
     "weather-container",
     "stock-container",
     "map-container",
+    "game-container",
 ];
 
 var loadCalendar = function(cb) {
