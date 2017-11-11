@@ -126,7 +126,27 @@
               var gesture = frame.gestures[i];
               switch (gesture.type) {
                 case "circle":
-                  // activateListener();
+                  activateListener();
+                  break;
+                case "swipe":
+                  var directionX = gesture.direction[0];
+                  var directionY = gesture.direction[1];
+                  if Math.abs(directionX) < 0.5 && Math.abs(directionY) < 0.5 {
+                    break;
+                  }
+                  if Math.abs(directionX) > Math.abs(directionY) {
+                    if (directionX > 0) { // Right
+                        swipeRightAction()
+                    } else { // Left
+                        swipeLeftAction()
+                    }
+                  } else {
+                    if (directionY > 0) { // Up
+                        swipeUpAction()
+                    } else { // Down
+                        swipeDownAction()
+                    }
+                  }
                   break;
                 case "screenTap":
                   break;
@@ -142,6 +162,22 @@
         function activateListener(){
           console.log("Called the circle gesture");
           document.getElementById("audio-control").click();
+        }
+
+        function swipeLeftAction() {
+            
+        }
+
+        function swipeRightAction() {
+            
+        }
+
+        function swipeUpAction() {
+            
+        }
+
+        function swipeDownAction() {
+            
         }
 
         function setPointerLocation(x,y) {
@@ -165,6 +201,15 @@
           newIcon.classList.add("fa-3x");
           newPointer.appendChild(newIcon);
           return newPointer;
+        }
+
+        function vectorToString(vector, digits) {
+          if (typeof digits === "undefined") {
+            digits = 1;
+          }
+          return "(" + vector[0].toFixed(digits) + ", "
+                     + vector[1].toFixed(digits) + ", "
+                     + vector[2].toFixed(digits) + ")";
         }
     </script>
 </body>
