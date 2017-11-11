@@ -41,6 +41,7 @@
       this.onSilence = function() {
         audioControl.stopRecording();
         currentState.state.renderer.clearCanvas();
+        window.recordingStarted = false;
         currentState.advanceConversation();
       };
 

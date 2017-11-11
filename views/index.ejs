@@ -39,10 +39,12 @@
 <body class="wrapper" id="app-container">
     <!-- Modal structure -->
     <div id="modal">
-        <div id='calendar-container'></div>
-        <div id='weather-container'></div>
-        <div id='stock-container'></div>
-        <div id='map-container'></div>
+        <div id="modal-containers">
+            <div id='calendar-container'></div>
+            <div id='weather-container'></div>
+            <div id='stock-container'></div>
+            <div id='map-container'></div>
+        </div>
     </div>
 
     <div class="audio-control">
@@ -83,8 +85,9 @@
 
     <script type="text/javascript">
     window.lexaudio = {};
-//    window.recordingStarted = false;
-//    window.shouldStopRecording = false;
+    window.currentInput = {};
+    window.recordingStarted = false;
+    window.shouldStopRecording = false;
 
     window.ACCESS_KEY_ID = "<%= access_key %>";
     window.SECRET_KEY = "<%= secret_key %>";
@@ -136,12 +139,6 @@
                     console.log("Circle radius ", gesture.radius.toFixed(1), " Circle progress ", gesture.progress.toFixed(2))
                     activateListener();
                   }
-//                  if (!window.recordingStarted) {
-//                    activateListener();
-//                    window.recordingStarted = true;
-//                  } else {
-//                    window.shouldStopRecording = true;
-//                  }
                   break;
                 case "swipe":
                   var directionX = gesture.direction[0];
@@ -179,6 +176,7 @@
         function activateListener(){
           console.log("Called the circle gesture");
           document.getElementById("audio-control").click();
+          window.recordingStarted = true;
         }
 
         function swipeLeftAction() {
@@ -195,7 +193,9 @@
         }
 
         function swipeDownAction() {
-            console.log("Called the swipe down gesture");
+            if (window.recordingStarted) {
+              window.shouldStopRecording = true;
+            }
         }
 
         function setPointerLocation(x,y) {

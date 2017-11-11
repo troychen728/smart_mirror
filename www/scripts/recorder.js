@@ -134,6 +134,10 @@
       var elapsedTime = newtime - origStart;
       if (elapsedTime > 5000) {
         silenceCallback();
+      } else if (window.shouldStopRecording) {
+        console.log('hit');
+        silenceCallback();
+        window.shouldStopRecording = false;
       } else {
         startSilenceDetection();
       }
