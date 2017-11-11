@@ -6,6 +6,7 @@ window.containerList = [
     "calendar-container",
     "weather-container",
     "stock-container",
+    "map-container",
 ];
 
 var loadCalendar = function(cb) {
@@ -59,6 +60,8 @@ var loadMapDirections = function(cb,destination){
   mapIFrame.setAttribute('src', 'https://www.google.com/maps/embed/v1/directions?key=AIzaSyCrwiBAYIUr_b0bqB8RzYEhmF846TwC7Zg&origin=Edmunds+Ballroom&destination=' + destination);
   mapContainer.appendChild(mapIFrame);
   cb();
+
+  document.getElementById('map-container').classList.remove('inactive');
 }
 
 var loadFirework = function() {
@@ -114,6 +117,12 @@ var processInput = function (currentInput) {
 
 $(document).ready(function() {
 
+  for (var i = 0; i < window.containerList.length; ++i) {
+    if ($("#" + window.containerList[i]).children.length > 0) {
+      document.getElementById(window.containerList[i]).classList.add('inactive');
+    }
+  }
+
   $('#calendar-container').fullCalendar({
     header: {
       left: 'prev,next today',
@@ -150,7 +159,7 @@ $(document).ready(function() {
           break;
 
         case 'trafficintent':
-          loadMapDirections(cb, currentInput.slots.Destination)
+          loadMapDirections(cb, currentInput.slots.Destination);
           break;
       }
     },
